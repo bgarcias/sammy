@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tulipanes para Sammy - Ramo artesanal interactivo con animación botánica de floración y envoltura física realista.">
+  <title>Tulipanes para Sammy</title>
+  
+  <!-- Tipografía Romántica y Elegante desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Hoja de Estilos CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Lógica Interactiva en JavaScript -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div id="stage">
+    <!-- Cielo estrellado animado -->
+    <div id="stars"></div>
+
+    <!-- Mensaje Romántico Superior en 2 Líneas -->
+    <h1 class="tittle-something" id="tittle-something">
+      "Life's been getting so much better lately, and I know exactly who to thank for that."
+    </h1>
+
+    <!-- Contenedor del Ramo en SVG (viewBox ajustado para aprovechar al máximo el espacio sin aire muerto) -->
+    <svg id="bouquet-svg" viewBox="70 65 400 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Brillo ambiental suave -->
+        <radialGradient id="ambientGlow" cx="50%" cy="38%" r="55%">
+          <stop offset="0%" stop-color="rgba(255, 190, 215, 0.48)" />
+          <stop offset="60%" stop-color="rgba(255, 150, 190, 0.15)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+        </radialGradient>
+
+        <filter id="softGlowFilter" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="24" />
+        </filter>
+
+        <!-- Sombra realista de pliegues de papel -->
+        <filter id="foldShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="2" dy="6" stdDeviation="5" flood-color="rgba(30, 10, 20, 0.35)" />
+        </filter>
+
+        <!-- Sombra del lazo -->
+        <filter id="bowShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="rgba(35, 8, 18, 0.4)" />
+        </filter>
+
+        <!-- PALETA "CUTE": Gradientes de Tulipán en Rosa Palo y Chicle Pastel -->
+        <linearGradient id="tulipBulbGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#d85e8a" />
+          <stop offset="25%" stop-color="#f48fb1" />
+          <stop offset="60%" stop-color="#ffb3d1" />
+          <stop offset="90%" stop-color="#ffdbe9" />
+          <stop offset="100%" stop-color="#fff2f7" />
+        </linearGradient>
+
+        <!-- Sombreado interno suave para volumen 3D -->
+        <linearGradient id="tulipShadowLeft" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="rgba(168, 59, 99, 0.35)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+        </linearGradient>
+
+        <linearGradient id="tulipShadowRight" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0%" stop-color="rgba(142, 45, 83, 0.3)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+        </linearGradient>
+
+        <!-- Cáliz / Conexión basal del tallo -->
+        <linearGradient id="calyxGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#7bc776" />
+          <stop offset="100%" stop-color="#2e6c33" />
+        </linearGradient>
+
+        <!-- Gradiente de Tallos -->
+        <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#8fd48a" />
+          <stop offset="50%" stop-color="#55a057" />
+          <stop offset="100%" stop-color="#26602e" />
+        </linearGradient>
+
+        <!-- Gradientes de Papel de Envoltura Kraft/Blush Nude -->
+        <linearGradient id="paperBackGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8f0" />
+          <stop offset="50%" stop-color="#f2dac7" />
+          <stop offset="100%" stop-color="#dbb89d" />
+        </linearGradient>
+
+        <linearGradient id="paperFlapLeftGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fffbf5" />
+          <stop offset="65%" stop-color="#f4dfcd" />
+          <stop offset="100%" stop-color="#dfbc9f" />
+        </linearGradient>
+
+        <linearGradient id="paperFlapRightGrad" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fcf0e3" />
+          <stop offset="60%" stop-color="#ebd3be" />
+          <stop offset="100%" stop-color="#d3ab8c" />
+        </linearGradient>
+
+        <!-- Gradiente del Lazo y Moño de Satín Rosa -->
+        <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ff9ec1" />
+          <stop offset="50%" stop-color="#f05487" />
+          <stop offset="100%" stop-color="#b82352" />
+        </linearGradient>
+
+        <linearGradient id="ribbonKnotGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ff7ca6" />
+          <stop offset="100%" stop-color="#9d1840" />
+        </linearGradient>
+      </defs>
+
+      <!-- Resplandor posterior -->
+      <ellipse id="bgGlow" cx="270" cy="230" rx="200" ry="200" fill="url(#ambientGlow)" filter="url(#softGlowFilter)" />
+
+      <!-- Capa de Chispas / Polen Luminoso -->
+      <g id="sparklesLayer"></g>
+
+      <!-- Grupo Global del Ramo (Composición compacta) -->
+      <g id="bouquetGroup">
+        
+        <!-- 1. Papel Trasero -->
+        <g id="wrapBackLayer">
+          <path id="wrapBackShape"
+                d="M270,570 L172,340 C205,318 335,318 368,340 Z"
+                fill="url(#paperBackGrad)" opacity="0.96" />
+          <path d="M270,570 L198,350 C232,335 308,335 342,350 Z"
+                fill="#000" opacity="0.05" />
+        </g>
+
+        <!-- 2. Capa de Tallos -->
+        <g id="stemsLayer"></g>
+
+        <!-- 3. Capa de Flores (10 Tulipanes bulbo pastel) -->
+        <g id="tulipsLayer"></g>
+
+        <!-- 4. Envoltorio Frontal Ceñido -->
+        <g id="wrapFrontLayer">
+          <!-- Solapa Izquierda -->
+          <g id="wrapFlapLeft">
+            <path d="M172,340 C198,390 230,445 300,492 L270,580 L225,555 Z"
+                  fill="url(#paperFlapLeftGrad)" filter="url(#foldShadow)" />
+            <path d="M188,360 L285,492" stroke="#bd9f83" stroke-width="1.5" opacity="0.35" fill="none" />
+          </g>
+
+          <!-- Solapa Derecha -->
+          <g id="wrapFlapRight">
+            <path d="M368,340 C342,390 310,445 240,496 L270,580 L315,555 Z"
+                  fill="url(#paperFlapRightGrad)" filter="url(#foldShadow)" />
+            <path d="M352,360 L255,496" stroke="#a8886e" stroke-width="1.5" opacity="0.35" fill="none" />
+          </g>
+        </g>
+
+        <!-- 5. Cinta y Moño Anudados sobre la Cintura Ceñida -->
+        <g id="bowLayer" filter="url(#bowShadow)">
+          <!-- Banda de satín ajustada -->
+          <path id="ribbonWaistBand"
+                d="M 230,484 C 252,478 288,478 310,484 L 306,500 C 288,494 252,494 234,500 Z"
+                fill="url(#ribbonGrad)" />
+          
+          <!-- Cintas colgantes del lazo -->
+          <path id="ribbonTailLeft"
+                d="M263,495 C246,535 230,575 218,618 L236,622 C248,580 262,540 269,500 Z"
+                fill="url(#ribbonGrad)" />
+          <path id="ribbonTailRight"
+                d="M277,495 C294,535 310,575 322,618 L304,622 C292,580 278,540 271,500 Z"
+                fill="url(#ribbonGrad)" />
+
+          <!-- Lazos y Nudo central -->
+          <g id="bowLoops">
+            <!-- Oreja izquierda -->
+            <path d="M270,490 C226,462 200,504 230,522 C252,527 266,506 270,497 Z"
+                  fill="url(#ribbonGrad)" />
+            <path d="M268,493 C234,472 214,502 238,516 C255,520 265,504 268,497 Z"
+                  fill="#9d1840" opacity="0.3" />
+
+            <!-- Oreja derecha -->
+            <path d="M270,490 C314,462 340,504 310,522 C288,527 274,506 270,497 Z"
+                  fill="url(#ribbonGrad)" />
+            <path d="M272,493 C306,472 326,502 302,516 C285,520 275,504 272,497 Z"
+                  fill="#9d1840" opacity="0.3" />
+
+            <!-- Nudo central -->
+            <ellipse cx="270" cy="494" rx="14" ry="12" fill="url(#ribbonKnotGrad)" />
+            <ellipse cx="270" cy="492" rx="9" ry="6" fill="#ffa8ca" opacity="0.45" />
+          </g>
+
+          <!-- Tarjetita de Dedicatoria Cute (Hilo anclado al costado izquierdo de la tarjeta) -->
+          <g id="giftTagGroup">
+            <!-- Hilo que nace desde el nudo (270, 482) y conecta exactamente al centro cx,cy del ojal (321,544),
+                 proyectado por la rotación rotate(6, 397.5, 544) del grupo de la tarjeta: punto real (321.41, 536.00) -->
+            <path d="M 270,482 C 290,470 310,500 321.41,536.00"
+                  stroke="#e898b3" stroke-width="1.3" stroke-dasharray="2.5,1.5" fill="none" />
+            <!-- Tarjeta pastel con pestaña en el costado izquierdo -->
+            <g transform="rotate(6, 397.5, 544)">
+              <!-- Cuerpo rectangular de la tarjeta -->
+              <rect x="330" y="526" width="135" height="36" rx="7"
+                    fill="#fffbfd" stroke="#f2b4c9" stroke-width="1.2" filter="url(#foldShadow)" />
+              <!-- Pestaña lateral izquierda con ojal, a la altura del centro vertical de la tarjeta -->
+              <path d="M 330,536 C 315,532 315,556 330,552 Z" fill="#fffbfd" stroke="#f2b4c9" stroke-width="1.2" />
+              <!-- Ojal metálico del hilo -->
+              <circle cx="321" cy="544" r="2.8" fill="none" stroke="#d4829d" stroke-width="1" />
+              <circle cx="321" cy="544" r="1.4" fill="#e898b3" />
+              <!-- Texto completo 100% visible sin cruces -->
+              <text x="397.5" y="549" font-family="'Cormorant Garamond', Georgia, serif"
+                    font-size="13.5" font-weight="600" font-style="italic" fill="#88153c" text-anchor="middle">
+                Para: Mi DJ favorita 🎧✨
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+</body>
+</html>
